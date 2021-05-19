@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ML API</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet">
+
+    <style>
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        input[type=text], select {
+            width: 100%;
+            padding: 20px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div class="login">
+        <h1 style="font-family:verdana;">Onion or Not?</h1>
+        <p style="font-family:verdana;">Input a news headline, and the algorithm will predict whether it's Onion-like satire, or if it's an Onion-like true story</p>
+
+            <form action="/predict" method="post">
+                <input type="text" name="headline" placeholder="Enter Headline Here..." required="required"/>
+                <button type="submit" class="button">Predict</button>
+            </form>
+
+            <br>
+            <br>
+            <div class="row">
+                <h2 style="font-family:verdana;" class="text-warning">{{prediction}}</h2>
+            </div>
+</div>
+
+
+</body>
+</html>
