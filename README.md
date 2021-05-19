@@ -5,6 +5,4 @@ The second part of this project involved using the ML model to develop a simple 
 
 https://user-images.githubusercontent.com/77365987/118757445-fc39a580-b821-11eb-967b-c799fe76ce98.mov
 
-
-
-
+Dataset used for arising the ML model: https://github.com/lukefeilberg/onion
