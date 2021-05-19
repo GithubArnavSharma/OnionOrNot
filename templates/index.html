@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <!--  Insert the title of the website, along with other fonts --> 
     <title>ML API</title>
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
@@ -9,6 +10,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet">
 
+    <!-- Set the grounds for the features for both the Submit button and the text headline box --> 
     <style>
         .button {
             background-color: #4CAF50;
@@ -39,9 +41,11 @@
 
 <body>
     <div class="login">
+        <!-- Text shown to the user to gain more knowledge about what the website does -->
         <h1 style="font-family:verdana;">Onion or Not?</h1>
         <p style="font-family:verdana;">Input a news headline, and the algorithm will predict whether it's Onion-like satire, or if it's an Onion-like true story</p>
 
+            <!-- The /predict action will have both the input text box and the button to submit, as to get the neccessary information for the predict() function --> 
             <form action="/predict" method="post">
                 <input type="text" name="headline" placeholder="Enter Headline Here..." required="required"/>
                 <button type="submit" class="button">Predict</button>
@@ -49,6 +53,7 @@
 
             <br>
             <br>
+            <!-- Once the Submit button is clicked, the prediction string variable will be displayed --> 
             <div class="row">
                 <h2 style="font-family:verdana;" class="text-warning">{{prediction}}</h2>
             </div>
