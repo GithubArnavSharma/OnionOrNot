@@ -3,6 +3,6 @@
 
 The second part of this project involved using the ML model to develop a simple local server website to easily insert input text headlines, and get the prediction on whether it's from the Onion or not. This was made possible due to Flask and HTML. The ending result:
 
-https://user-images.githubusercontent.com/77365987/118757445-fc39a580-b821-11eb-967b-c799fe76ce98.mov
+https://user-images.githubusercontent.com/77365987/119209575-30000f80-ba5c-11eb-900d-5658656d2068.mov
 
 Dataset used for arising the ML model: https://github.com/lukefeilberg/onion
