@@ -21,9 +21,11 @@ old_text = np.array(df['text'])
 
 #Apply the clean_text function to all news headlines in df
 df['text'] = df['text'].apply(lambda text: clean_text(text))
-#Store X(news headlines) and y(whether its real or fake) into numpy arrays
-X = np.array(df['text'])
-y = np.array(df['label'])
+#Store X(news headlines) and y(whether its real or fake) into numpy arrays, where there are an equal amount of fake and real articles
+X_fake = np.array(df['text'][df['label']==0])[:9000]
+X_real = np.array(df['text'][df['label']==1])[:9000]
+X = np.concatenate((X_fake, X_real))
+y = np.array([0]*9000+[1]*9000)
 
 #The training variables will consist of 70% of the dataset, and the testing variables will consist of 30%
 X_train, y_train = X[:16800], y[:16800]
