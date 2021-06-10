@@ -20,7 +20,7 @@ input[type=text], select {
     border: 2px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    color: white;
+    font-size: 15px;
 }
 
 .center {
