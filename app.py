@@ -7,7 +7,7 @@ from flask import Flask, request, jsonify, render_template
 app = Flask(__name__)
 
 #Load the model 
-model = pickle.load(open('model.pkl', 'rb'))
+model = pickle.load(open('C:/Users/arnie2014/Downloads/model.pkl', 'rb'))
 
 #When initially taken to the local server website, the template will be rendered
 @app.route('/')
@@ -18,7 +18,7 @@ def home():
 @app.route('/predict',methods=['POST'])
 def predict():
     #Clean headline from the text
-    text = str(request.form['headline'])
+    text = str(request.json['headline'])
     text = text.strip().lower()
     text = text.translate(str.maketrans('', '', string.punctuation))
     #Get the probabilities for both the headline being real(0) and the headline being from the Onion(1) 
@@ -31,7 +31,9 @@ def predict():
         chance = int(pred_probs[1] * 100)
 
     #Return the html template with a string variable prediction which gives the information off of the model prediction 
-    return render_template('index.html', prediction='{}% chance of the headline being {}'.format(chance, prediction))
+    total_str = "{}% chance of the headline being {}".format(chance, prediction)
+    return jsonify({'result':total_str})
+
 
 #Run the app
 if __name__ == "__main__":
