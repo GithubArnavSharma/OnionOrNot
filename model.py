@@ -1,45 +1,58 @@
-#Import neccessary modules 
 import numpy as np
 import pandas as pd
 import string
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from sklearn.preprocessing import MaxAbsScaler
+import pickle
+from keras.preprocessing.sequence import pad_sequences
+from sklearn.metrics import pairwise_distances
+from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler
 from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
 
-#Store the OnionOrNot csv file, containing news headlines from both the Onion and real life. 0 = real life 1 = Onion
-df = pd.read_csv('OnionOrNot.csv')
+df = pd.read_csv('/content/drive/MyDrive/OnionOrNot.csv')
+df = df.sort_values('label')[6000:]
 
-#Function that inputs text and 'cleans' it by lowering it and removing punctuation 
 def clean_text(text):
-  text = text.strip().lower()
+  text = text.lower().strip()
   text = text.translate(str.maketrans('', '', string.punctuation))
   return text
 
-#Store non-cleaned test for comparing human and machine accuracy 
-old_text = np.array(df['text'])
-
-#Apply the clean_text function to all news headlines in df
 df['text'] = df['text'].apply(lambda text: clean_text(text))
-#Store X(news headlines) and y(whether its real or fake) into numpy arrays, where there are an equal amount of fake and real articles
-X_fake = np.array(df['text'][df['label']==0])[:9000]
-X_real = np.array(df['text'][df['label']==1])[:9000]
-X = np.concatenate((X_fake, X_real))
-y = np.array([0]*9000+[1]*9000)
 
-#The training variables will consist of 70% of the dataset, and the testing variables will consist of 30%
-X_train, y_train = X[:16800], y[:16800]
-X_test, y_test = X[16800:], y[16800:]
+X_ = np.array(df['text'])
+y_ = np.array(df['label'])
 
-#Create the model using sklearn's Pipeline, which pipelines transformers with a final estimator for predictions
+total = ' '.join(X_).split()
+word2int = {word: index+1 for index, word in enumerate(np.unique(total))}
+
+X = np.array([[word2int[word] for word in x.split()] for x in X_])
+max_len = max([len(x) for x in X])
+X = pad_sequences(X, max_len)
+
+scaler = MinMaxScaler().fit(X)
+X = scaler.transform(X)
+
+distances = pairwise_distances(X)
+distance_zero = np.where(distances == 0)
+distance_little = np.where(distances < 0.2)
+
+little = [(distance_little[0][i], distance_little[1][i]) for i in range(len(distance_little[0]))]
+little_zero = [(distance_zero[0][i], distance_little[1][i]) for i in range(len(distance_zero[0]))]
+little = np.ravel([l for l in little if l[0] != l[1] and l not in little_zero])
+
+X = np.array([X_[i] for i in range(len(X)) if i not in little])
+y = np.array([y_[i] for i in range(len(y_)) if i not in little])
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=0)
+
 model = Pipeline([
-    ('count', CountVectorizer()), #Convert the X headlines to a matrix of word tokens and their frequencies within each headline
-    ('tfidf', TfidfTransformer()), #Normalize the count matrix while scaling down the impact of very frequent word tokens which provide little information
-    ('scale', MaxAbsScaler()), #Scale each feature in the TFIDF matrix by its maximum absolute value to increase linearity
-    ('log', LogisticRegression()) #Each vector in the matrix is now a data point for the Logistic Regression algorithm 
+    ('count', CountVectorizer()),
+    ('tfidf', TfidfTransformer()),
+    ('scale', MaxAbsScaler()),
+    ('log', LogisticRegression())
 ])
-#Fit the data on X_train and y_train
 model.fit(X_train, y_train)
-print(model.score(X_test, y_test)) #Test accuracy is ~84.41%
+print(model.score(X_test, y_test))
 
-pickle.dump(model, open('model.pkl', 'wb')) #Save the model
+pickle.dump(model, open('sample_data/model.pkl', 'wb'))
