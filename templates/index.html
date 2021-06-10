@@ -2,30 +2,36 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>ML API</title>
+    <title>Onion Or Not?</title>
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet">
+
 </head>
 
-<body>
+<body style="background-image: url('https://digitalsynopsis.com/wp-content/uploads/2017/07/beautiful-color-ui-gradients-backgrounds-endless-river.png'); background-size: 100% ">
     <div class="login">
-        <h1 style="font-family:verdana;" class="center">Onion or Not?</h1>
-        <p style="font-family:verdana;" class="center">Input a news headline, and the algorithm will predict whether it's Onion-like satire, or if it's an Onion-like true story</p>
+
+        <br />
+        <br />
+        <br />
+
+        <h1 style="font-family:verdana;color:white" class="center">Onion or Not?</h1>
+        <p style="font-family:verdana;color:white" class="center">Input a news headline, and the algorithm will predict whether it's Onion-like satire, or if it's an Onion-like true story</p>
 
         <form action="/predict" method="post">
-            <input type="text" name="headline" placeholder="Enter Headline Here..." required="required" />
-            <button type="submit" class="button">Predict</button>
+            <textarea class="headlinetext" name="headline" placeholder="Enter headline here..." id="headline" required="required"></textarea>
+            <button type="button" class="button" id="predict-button">Predict</button>
         </form>
 
-         <br>
-         <br>
-         <div class="row">
-            <h2 style="font-family:verdana;" class="center">{{prediction}}</h2>
-         </div>
-</div>
+        <br>
+        <br>
+        <div class="row">
+            <h2 style="font-family:verdana;color:white" class="center" id="result-text"></h2>
+        </div>
+    </div>
 
 
 </body>
