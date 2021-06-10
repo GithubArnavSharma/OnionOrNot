@@ -29,9 +29,7 @@ word2int = {word: index+1 for index, word in enumerate(np.unique(total))}
 X = np.array([[word2int[word] for word in x.split()] for x in X_])
 max_len = max([len(x) for x in X])
 X = pad_sequences(X, max_len)
-
-scaler = MinMaxScaler().fit(X)
-X = scaler.transform(X)
+X = MinMaxScaler().fit_transform(X)
 
 distances = pairwise_distances(X)
 distance_zero = np.where(distances == 0)
